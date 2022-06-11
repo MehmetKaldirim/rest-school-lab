@@ -34,6 +34,7 @@ public class ParentDTO {
 
     private Status status;
 
+
     private AddressDTO address;
 
 }

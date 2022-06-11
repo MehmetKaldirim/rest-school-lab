@@ -21,6 +21,7 @@ public class AddressServiceImpl implements AddressService {
     private final MapperUtil mapperUtil;
     private final WeatherApiClient weatherApiClient;
 
+    //getting information from property file
     @Value("${access_key}")
     private String accessKey;
 

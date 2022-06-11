@@ -28,4 +28,44 @@ public class ApiController {
         this.addressService = addressService;
     }
 
+    @GetMapping("/teachers")
+    public List<TeacherDTO> readAllTeachers() {
+        return teacherService.findAll();
+    }
+
+    @GetMapping("/students")
+    public ResponseEntity<ResponseWrapper> readAllStudents() {
+        return ResponseEntity.ok(new ResponseWrapper("Students are successfully retrieved.", studentService.findAll()));
+    }
+
+    @GetMapping("/parents")
+    public ResponseEntity<ResponseWrapper> readAllParents() {
+        //use all arguments structure
+        ResponseWrapper responseWrapper =
+                new ResponseWrapper(true, "Parents are successfully retrieved.", HttpStatus.OK.value(), parentService.findAll());
+        return ResponseEntity.status(HttpStatus.OK).body(responseWrapper);
+    }
+
+    @GetMapping("/address/{id}")
+    public ResponseEntity<ResponseWrapper> getAddress(@PathVariable("id") Long id) throws Exception {
+        AddressDTO addressToReturn = addressService.findById(id);
+        addressToReturn.setCurrentTemperature(addressService.getCurrentWeather(addressToReturn.getCity()).getCurrent().getTemperature());
+
+        return ResponseEntity.ok(new ResponseWrapper("Address iss successfully retrieved.", addressToReturn));
+    }
+
+    @PutMapping("/address/{id}")
+    public AddressDTO updateAddress(@PathVariable("id") Long id,
+                                    @RequestBody AddressDTO addressDTO) throws Exception {
+
+        addressDTO.setId(id);//coz of jsonignore we need set id
+
+        AddressDTO addressToReturn = addressService.update(addressDTO);
+
+        addressToReturn.setCurrentTemperature(addressService.getCurrentWeather(addressToReturn.getCity()).getCurrent().getTemperature());
+
+        return addressToReturn;
+
+    }
+
 }

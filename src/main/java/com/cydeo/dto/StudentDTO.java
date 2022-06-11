@@ -33,6 +33,7 @@ public class StudentDTO {
 
     private Status status;
 
+    //@JsonManagedReference(value = "address-reference")
     private AddressDTO address;
 
     private ParentDTO parent;
